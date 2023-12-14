@@ -1,0 +1,27 @@
+version: "3.8"
+
+networks:
+  next-net:
+
+services:
+  app:
+    image: openai-demo-app
+    build:
+      context: ./
+      target: dev
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    networks:
+      - next-net
+  mongo:
+    image: mongo:latest
+    networks:
+      - next-net
+    container_name: dashboard-mongodb
+    expose:
+      - "27017"
